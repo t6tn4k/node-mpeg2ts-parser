@@ -1,0 +1,24 @@
+{
+  "name": "mpeg2ts-parser",
+  "version": "1.0.0",
+  "description": "MPEG-2 TS parser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t6tn4k/node-mpeg2ts-parser.git"
+  },
+  "keywords": [
+    "mpeg2",
+    "m2ts",
+    "ts"
+  ],
+  "author": "t6tn4k",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/t6tn4k/node-mpeg2ts-parser/issues"
+  },
+  "homepage": "https://github.com/t6tn4k/node-mpeg2ts-parser#readme"
+}
