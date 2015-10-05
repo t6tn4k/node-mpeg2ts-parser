@@ -37,7 +37,7 @@ var parseAdaptationField = function(packet) {
             = packet.readUInt32BE(index) * 2 + ((packet[index + 4] & 0x80) >>> 7);
 
         adaptation_field.program_clock_reference_extension
-            = (packet[index + 4] & 0x1) + packet[index + 5];
+            = (packet[index + 4] & 0x1) * 256 + packet[index + 5];
 
         index += 6;
     }
@@ -47,7 +47,7 @@ var parseAdaptationField = function(packet) {
             = packet.readUInt32BE(index) * 2 + ((packet[index + 4] & 0x80) >>> 7);
 
         adaptation_field.original_program_clock_reference_extension
-            = (packet[index + 4] & 0x1) + packet[index + 5];
+            = (packet[index + 4] & 0x1) * 256 + packet[index + 5];
 
         index += 6;
     }
@@ -126,7 +126,8 @@ var parsePacket = function(chunk) {
         pid:                          ((chunk[1] & 0x1f) << 8) | chunk[2],
         transport_scrambling_control: (chunk[3] & 0xc0) >>> 6,
         adaptation_field_control:     (chunk[3] & 0x30) >>> 4,
-        continuity_counter:           chunk[3] & 0x0f
+        continuity_counter:           chunk[3] & 0x0f,
+        packet:                       chunk
     };
 
     if (packet.adaptation_field_control & 0x2) {
