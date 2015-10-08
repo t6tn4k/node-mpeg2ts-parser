@@ -1,7 +1,7 @@
 {
   "name": "mpeg2ts-parser",
   "description": "MPEG-2 TS parser",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "t6tn4k",
   "bugs": {
     "url": "https://github.com/t6tn4k/node-mpeg2ts-parser/issues"
