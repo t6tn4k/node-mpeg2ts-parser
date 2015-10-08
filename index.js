@@ -37,7 +37,7 @@ var parseAdaptationField = function(packet) {
             = packet.readUInt32BE(index) * 2 + ((packet[index + 4] & 0x80) >>> 7);
 
         adaptation_field.program_clock_reference_extension
-            = (packet[index + 4] & 0x1) * 256 + packet[index + 5];
+            = (packet[index + 4] & 0x1) * 256 + (packet[index + 5] >>> 0);
 
         index += 6;
     }
@@ -47,7 +47,7 @@ var parseAdaptationField = function(packet) {
             = packet.readUInt32BE(index) * 2 + ((packet[index + 4] & 0x80) >>> 7);
 
         adaptation_field.original_program_clock_reference_extension
-            = (packet[index + 4] & 0x1) * 256 + packet[index + 5];
+            = (packet[index + 4] & 0x1) * 256 + (packet[index + 5] >>> 0);
 
         index += 6;
     }
@@ -59,7 +59,7 @@ var parseAdaptationField = function(packet) {
     }
 
     if (adaptation_field.transport_private_data_flag) {
-        adaptation_field.transport_private_data_length = packet[index];
+        adaptation_field.transport_private_data_length = packet[index] >>> 0;
 
         adaptation_field.private_data = packet.slice(index + 1,
             index + 1 + adaptation_field.transport_private_data_length);
@@ -68,7 +68,7 @@ var parseAdaptationField = function(packet) {
     }
 
     if (adaptation_field.adaptation_field_extension_flag) {
-        adaptation_field.adaptation_field_extension_length = packet[index];
+        adaptation_field.adaptation_field_extension_length = packet[index] >>> 0;
 
         adaptation_field.ltw_flag             = (packet[index + 1] & 0x80) >>> 7;
         adaptation_field.piecewise_rate_flag  = (packet[index + 1] & 0x40) >>> 6;
@@ -80,14 +80,14 @@ var parseAdaptationField = function(packet) {
             adaptation_field.ltw_valid_flag = (packet[index] & 0x80) >>> 7;
 
             adaptation_field.ltw_offset
-                = (packet[index] & 0x7f) * 256 + packet[index + 1];
+                = (packet[index] & 0x7f) * 256 + (packet[index + 1] >>> 0);
 
             index += 2;
         }
 
         if (adaptation_field.piecewise_rate_flag) {
             adaptation_field.piecewise_rate = (packet[index] & 0x3f) * 65536
-                + packet[index + 1] * 256 + packet[index + 2];
+                + packet[index + 1] * 256 + (packet[index + 2] >>> 0)
 
             index += 3;
         }
@@ -100,7 +100,7 @@ var parseAdaptationField = function(packet) {
             // 16384     = 2 ^ 14
             // 128       = 2 ^ 7
             adaptation_field.dts_next_au = (packet[index] & 0x0e) * 536870912
-                + packet[index + 1] * 4194304 + (packet[index + 2] & 0xfe) * 16384
+                + packet[index + 1] * 4194304 + ((packet[index + 2] & 0xfe) >>> 0) * 16384
                 + packet[index + 3] * 128 + ((packet[index + 4] & 0xfe) >>> 1);
         }
     }
