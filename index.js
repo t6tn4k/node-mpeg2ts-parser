@@ -135,8 +135,13 @@ var parsePacket = function(chunk) {
     }
 
     if (packet.adaptation_field_control & 0x1) {
-        packet.payload = chunk.slice(5 + ((packet.adaptation_field_control & 0x2) ?
-            packet.adaptation_field.adaptation_field_length : 0));
+        var begin = 5 + ((packet.adaptation_field & 0x2) ?
+            packet.adaptation_field.adaptation_field_length : 0);
+
+        var end = 188;
+        for (; chunk[end - 1] === 0xff; --end) {}
+
+        packet.payload = chunk.slice(begin, end);
     }
 
     return packet;
